@@ -56,6 +56,8 @@ function Chatboat() {
   // ============================================================
   // MESSAGES
   // ============================================================
+  console.log(userId)
+  console.log(sessionId)
 
   const [messages, setMessages] = useState([
     {

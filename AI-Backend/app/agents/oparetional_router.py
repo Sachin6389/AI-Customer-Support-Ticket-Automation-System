@@ -395,7 +395,10 @@ async def execute_operation(
 
             result = {
                 "success": True,
-                "data": previous_info["data"],
+                "operation":"retrieve_previous_info",
+                "answer": previous_info["data"],
+                "requires_human":False,
+                "evidence":[]
                 
             }
 
@@ -408,7 +411,7 @@ async def execute_operation(
                     "No previously provided information "
                     "was found in the conversation history."
                 ),
-                "requires_input": True,
+                "requires_human": True,
                 "evidence": [],
             }
 

@@ -50,11 +50,13 @@ async def knowledge_search(
 
         if not query or not query.strip():
 
-            return operation_failure(
-                operation="knowledge_search",
-                error="Search query cannot be empty.",
-                requires_human=False,
-            )
+            return {
+                "success":True,
+                "operation":"knowledge_search",
+                "answer":"Please provide your User Id",
+                "requires_human":False,
+                "evidence":[]
+            } 
 
         query = query.strip()
 
@@ -174,19 +176,25 @@ async def order_status_operation(
 
         if not order_id:
 
-            return operation_failure(
-                operation="order_status",
-                error="Order ID is required.",
-                requires_human=False,
-            )
+            return {
+                "success":True,
+                "operation":"order_status",
+                "answer":"Please provide your Order ID so I can check the order details and provide you with the latest status.",
+                "requires_human" : False,
+                "evidence":[]
+            }
+              
 
         if not user_id:
+            return {
+                "success":True,
+                "operation":"order_status",
+                "answer":"Please provide your User ID so I can check the order details and provide you with the latest status.",
+                "requires_human":False,
+                "evidence":[]
+            }
 
-            return operation_failure(
-                operation="order_status",
-                error="User ID is required.",
-                requires_human=False,
-            )
+            
 
         order_id = order_id.strip()
         user_id = user_id.strip()
@@ -277,19 +285,23 @@ async def payment_status_operation(
 
         if not order_id:
 
-            return operation_failure(
-                operation="payment_status",
-                error="Order ID is required to check payment status.",
-                requires_human=False,
-            )
-
+            return {
+                "success":True,
+                "operation":"payment_status",
+                "answer":"Please provide your Order ID so I can check the payment details and provide you with the latest status.",
+                "requires_human":False,
+                "evidence":[]
+            }
+              
         if not user_id:
 
-            return operation_failure(
-                operation="payment_status",
-                error="User ID is required.",
-                requires_human=False,
-            )
+            return {
+                "success":True,
+                "operation":"payment_status",
+                "answer":"Please provide your User ID  so I can check the payment details .",
+                "requires_human":False,
+                "evidence":[]
+            }
 
         order_id = order_id.strip()
         user_id = user_id.strip()
@@ -381,11 +393,13 @@ async def product_operation(
 
         if not product_id:
 
-            return operation_failure(
-                operation="product_info",
-                error="Product ID is required.",
-                requires_human=False,
-            )
+            return {
+                "success":True,
+                "operation":"product_info",
+                "answer":"Please provide the Product ID you’re looking for so I can fetch the product details for you.",
+                "requires_human":False,
+                "evidence":[]
+            }
 
         product_id = product_id.strip()
 
@@ -477,11 +491,13 @@ async def create_complaint_operation(
 
         if not user_id or not user_id.strip():
 
-            return operation_failure(
-                operation="create_complaint",
-                error="User ID is required.",
-                requires_human=False,
-            )
+            return {
+                "success":True,
+                "operation":"create_complaint",
+                "answer":"please provide your User ID",
+                "requires_human":False,
+                "evidence":[]
+            }
 
         # ----------------------------------------------------
         # VALIDATE COMPLAINT
@@ -489,11 +505,13 @@ async def create_complaint_operation(
 
         if not query or not query.strip():
 
-            return operation_failure(
-                operation="create_complaint",
-                error="Complaint cannot be empty.",
-                requires_human=False,
-            )
+            return {
+                "success":True,
+                "operation":"create_complaint",
+                "answer":"please provide your Query",
+                "requires_human":False,
+                "evidence":[]
+            }
 
         user_id = user_id.strip()
         complaint = query.strip()
@@ -598,11 +616,14 @@ async def get_user_complaints_operation(
 
         if not user_id or not user_id.strip():
 
-            return operation_failure(
-                operation="get_user_complaints",
-                error="User ID is required.",
-                requires_human=False,
-            )
+            return{
+                "success":True,
+                "operation":"get_user_complaints",
+                "answer":"Please provide your User Id",
+                "requires_human":False,
+                "evidence":[]
+            }
+        
 
         user_id = user_id.strip()
 
@@ -712,11 +733,13 @@ async def escalation_operation(
 
         if not user_id or not user_id.strip():
 
-            return operation_failure(
-                operation="human_escalation",
-                error="User ID is required.",
-                requires_human=True,
-            )
+            return {
+                "success":True,
+                "operation":"human_escalation",
+                "answer":"Please provide your User Id",
+                "requires_human":False,
+                 "evidence":[]
+            }
 
         # ----------------------------------------------------
         # VALIDATE COMPLAINT
@@ -724,11 +747,13 @@ async def escalation_operation(
 
         if not query or not query.strip():
 
-            return operation_failure(
-                operation="human_escalation",
-                error="Complaint is required for escalation.",
-                requires_human=True,
-            )
+            return {
+                "success":True,
+                "operation":"human_escalation",
+                "answer":"Please provide your Query.",
+                "requires_human":False,
+                "evidence":[]
+            }
 
         # ----------------------------------------------------
         # VALIDATE PRIORITY

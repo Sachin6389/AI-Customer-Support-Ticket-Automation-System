@@ -1,0 +1,101 @@
+[
+  {
+    "question": "What should I do if my payment fails?",
+    "expected_keywords": [
+      "verify transaction",
+      "bank",
+      "payment provider",
+      "contact support",
+      "transaction information"
+    ]
+  },
+  {
+    "question": "Can I cancel my personalized order after production has started?",
+    "expected_keywords": [
+      "may not be possible",
+      "personalized product",
+      "production started",
+      "materials",
+      "production time"
+    ]
+  },
+  {
+    "question": "What should I do if I receive a damaged product?",
+    "expected_keywords": [
+      "order ID",
+      "clear photos",
+      "video",
+      "package",
+      "product",
+      "contact support"
+    ]
+  },
+  {
+    "question": "Are personalized products eligible for a change-of-mind refund?",
+    "expected_keywords": [
+      "generally not eligible",
+      "personalized products",
+      "production started",
+      "applicable law",
+      "Buildnex approves"
+    ]
+  },
+  {
+    "question": "When should a customer support case be escalated to a human?",
+    "expected_keywords": [
+      "payment disputes",
+      "repeated delivery failures",
+      "serious product defects",
+      "suspected fraud",
+      "unresolved complaints"
+    ]
+  }
+  ,
+  {
+    "question": "Can you check the order details for order 6ab84d88cec429b455a04f5b?",
+    "expected_keywords": [
+      "order ID",
+      "6ab84d88cec429b455a04f5b",
+      "order details",
+      "order status"
+    ]
+  },
+  {
+    "question": "What is the payment status for order 6ab84d88cec429b455a04f5b?",
+    "expected_keywords": [
+      "order ID",
+      "6ab84d88cec429b455a04f5b",
+      "payment status",
+      "payment"
+    ]
+  },
+  {
+    "question": "Can you check both the order status and payment status for order 6ab84d88cec429b455a04f5b?",
+    "expected_keywords": [
+      "order status",
+      "payment status",
+      "6ab84d88cec429b455a04f5b"
+    ]
+  },
+  {
+    "question": "Has order 6ab84d88cec429b455a04f5b been confirmed, and was the payment successfully received?",
+    "expected_keywords": [
+      "order confirmed",
+      "payment confirmation",
+      "successfully received",
+      "6ab84d88cec429b455a04f5b"
+    ]
+  },
+  {
+    "question": "Please give me the order details and tell me whether the payment for order 6ab84d88cec429b455a04f5b is pending, successful, or failed.",
+    "expected_keywords": [
+      "order details",
+      "payment status",
+      "pending",
+      "successful",
+      "failed",
+      "6ab84d88cec429b455a04f5b"
+    ]
+  }
+
+]

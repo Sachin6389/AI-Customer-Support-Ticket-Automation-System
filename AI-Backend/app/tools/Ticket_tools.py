@@ -91,7 +91,7 @@ async def get_user_complaints(
 
     try:
 
-        result = await node_client.post(
+        result = await node_client.get(
             settings.NODE_GET_USER_COMPLAINT_ENDPOINT,
             params={
             "userId": user_id
