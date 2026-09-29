@@ -1,0 +1,1 @@
+export const Db_Name="AI_Database"
