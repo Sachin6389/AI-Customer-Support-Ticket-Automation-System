@@ -338,13 +338,13 @@ Operation Router
 ┌───────┴─────────────────────────┐
 │ │
 ▼ ▼
-Knowledge / RAG Business Tools
+Knowledge / RAG Business Tools /Payment Tools / Order Tool / Complain Tool 
 │ │
 ▼ ▼
-MongoDB Vector + BM25 Node.js Backend APIs
+MongoDB Vector + BM25 Node.js/ Backend APIs
 │ │
 ▼ ▼
-Cross-Encoder Reranking Operation Results
+Cross-Encoder Reranking Operation Results / Results
 │ │
 └───────────────┬─────────────────┘
 ▼
@@ -376,39 +376,53 @@ FastAPI Application
 │ ├── Chat
 │ └── Documents
 │
-├── Query Processing
-│ ├── Query Decomposer
-│ ├── Intent Classifier
-│ ├── Entity / Reference Extractor
-│ └── Operation Router
+├── Clients
+│ └── Node Cleint
 │
 ├── Agents
 │ ├── Query Processing Agent
+│ ├── Intent Agent
+│ ├── Process query
+│ ├── Oparetion
+│ ├── Oparetion Route
 │ └── Grounded Response Agent
 │
-├── Operations / Tools
-│ ├── Knowledge Search
+├──  Tools
+│ ├── Docuemnt Search
 │ ├── Order Status
 │ ├── Payment Status
 │ ├── Product Search
-│ ├── Create Complaint
-│ ├── Get User Complaints
-│ └── Human Escalation
+│ ├── Create/ Get / Human Exclate Complaint
 │
-├── Retrieval
-│ ├── MongoDB Vector Search
-│ ├── BM25
-│ └── Cross-Encoder Reranking
+├── Rag
+│ ├── clean_text
+│ ├── context Search
+│ ├── docuemnt_loader
+│ ├── Hybride_search
+│ ├── model embedding
+│ ├── pipeline
+│ ├── query t
+│ └──  Reranking
 │
-├── Memory
-│ ├── Get Conversation
-│ └── Save Conversation
+├── Core
+│ ├── config
+│ └── Logging
+├── DB
+│ ├── Indexes
+│ ├── MangoDB
+│ └── Vector_Store_MongoDB
+├── LLM
+│ ├── Groq LLM
+├── Schema
+│ ├── Chat
+│ ├── Intent
+│ ├── Query
+│ └──Operation
 │
-└── External Services
-├── MongoDB
-├── Node.js Backend
-├── Groq
-└── Embedding / Reranking Models
+└── Data
+├── .env
+├── Evaluted
+
 ```
 
 ## 6.4 🗃️ MongoDB Data Architecture
