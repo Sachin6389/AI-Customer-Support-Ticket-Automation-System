@@ -15,42 +15,21 @@ from app.agents.oparetion import (
 
 logger = logging.getLogger(__name__)
 
+
+
 def extract_previous_info(
     conversation: dict | list | None,
 ) -> dict | None:
-    """
-    Search MongoDB conversation history for previously mentioned
-    identifiers.
-
-    Supported information:
-        - order_id
-        - product_id
-        - payment_id
-        - ticket_id
-        - user_id
-        - file_id
-        - file_name
-
-    Returns:
-        {
-            "success": True,
-            "data": "...",
-            "information_type": "order_id"
-        }
-
-    or None when nothing is found.
-    """
 
     if not conversation:
         logger.warning(
-            "No conversation history available for "
-            "RETRIEVE_PREVIOUS_INFO"
+            "No conversation history available for RETRIEVE_PREVIOUS_INFO"
         )
         return None
 
-    # --------------------------------------------------------
-    # Normalize MongoDB conversation structure
-    # --------------------------------------------------------
+    # ============================================================
+    # NORMALIZE CONVERSATION
+    # ============================================================
 
     messages = []
 
@@ -59,37 +38,16 @@ def extract_previous_info(
 
     elif isinstance(conversation, dict):
 
-        # Common MongoDB structure:
-        #
-        # {
-        #     "_id": "...",
-        #     "user_id": "...",
-        #     "session_id": "...",
-        #     "messages": [...]
-        # }
-        #
-        if isinstance(
-            conversation.get("messages"),
-            list,
-        ):
+        if isinstance(conversation.get("messages"), list):
             messages = conversation["messages"]
 
-        # Alternative structures
-        elif isinstance(
-            conversation.get("conversation"),
-            list,
-        ):
+        elif isinstance(conversation.get("conversation"), list):
             messages = conversation["conversation"]
 
-        elif isinstance(
-            conversation.get("history"),
-            list,
-        ):
+        elif isinstance(conversation.get("history"), list):
             messages = conversation["history"]
 
         else:
-            # Sometimes the conversation itself may contain
-            # structured references.
             messages = [conversation]
 
     logger.debug(
@@ -97,20 +55,51 @@ def extract_previous_info(
         len(messages),
     )
 
-    # --------------------------------------------------------
-    # 1. Search structured information first
-    #
-    # Search newest message first.
-    # --------------------------------------------------------
+    # ============================================================
+    # VALID ID VALIDATORS
+    # ============================================================
+
+    validators = {
+
+        "Order ID": re.compile(
+            r"^(?:ORD[-_]?[A-Za-z0-9]{3,}|[a-fA-F0-9]{24})$",
+            re.IGNORECASE,
+        ),
+
+        "Payment ID": re.compile(
+            r"^(?:PAY[-_]?[A-Za-z0-9]{3,}|[a-fA-F0-9]{24})$",
+            re.IGNORECASE,
+        ),
+
+        "Product ID": re.compile(
+            r"^(?:PROD[-_]?[A-Za-z0-9]{3,}|[a-fA-F0-9]{24})$",
+            re.IGNORECASE,
+        ),
+
+        "Ticket ID": re.compile(
+            r"^(?:TKT[-_]?[A-Za-z0-9]{3,}|ESC[-_]?[A-Za-z0-9]{3,})$",
+            re.IGNORECASE,
+        ),
+
+        "File ID": re.compile(
+            r"^(?:FILE[-_]?[A-Za-z0-9]{3,}|[a-fA-F0-9]{24})$",
+            re.IGNORECASE,
+        ),
+    }
+
+    # ============================================================
+    # 1. CHECK STRUCTURED DATA
+    # ============================================================
 
     fields = [
-        "order_id",
-        "product_id",
-        "payment_id",
-        "ticket_id",
-        "user_id",
-        "file_id",
-        "file_name",
+        "Order ID",
+        "Product ID",
+        "Complaint ID",
+        "Payment ID",
+        "Ticket ID",
+        "User ID",
+        "File ID",
+        "File Name",
     ]
 
     for message in reversed(messages):
@@ -118,165 +107,337 @@ def extract_previous_info(
         if not isinstance(message, dict):
             continue
 
-        # Check the message itself
+        # --------------------------------------------------------
+        # Direct fields
+        # --------------------------------------------------------
+
         for field in fields:
 
             value = message.get(field)
 
-            if value:
-                logger.info(
-                    "Previous information found | "
-                    "type=%s | value=%s",
+            if not value:
+                continue
+
+            value = str(value).strip()
+
+            # Complaint ID is not currently treated as a retrievable
+            # identifier unless you explicitly want it.
+            if field == "Complaint ID":
+                continue
+
+            # User ID is normally supplied by the application and
+            # should not be extracted from arbitrary conversation text.
+            if field == "User ID":
+                continue
+
+            # File name is not an ID.
+            if field == "File Name":
+                continue
+
+            validator = validators.get(field)
+
+            if validator and not validator.fullmatch(value):
+                logger.debug(
+                    "Ignoring invalid previous value | type=%s | value=%s",
                     field,
                     value,
                 )
+                continue
 
-                return {
-                    "success": True,
-                    "data": str(value),
-                    "information_type": field,
-                }
+            logger.info(
+                "Previous information found | type=%s | value=%s",
+                field,
+                value,
+            )
 
-        # Check nested references
+            return {
+                "success": True,
+                "data": value,
+                "information_type": field,
+            }
+
+        # --------------------------------------------------------
+        # Nested references
+        # --------------------------------------------------------
+
         references = message.get("references")
 
         if isinstance(references, dict):
 
             for field in fields:
 
+                if field in (
+                    "Complaint ID",
+                    "User ID",
+                    "File Name",
+                ):
+                    continue
+
                 value = references.get(field)
 
-                if value:
-                    logger.info(
-                        "Previous reference found | "
-                        "type=%s | value=%s",
-                        field,
-                        value,
-                    )
+                if not value:
+                    continue
 
-                    return {
-                        "success": True,
-                        "data": str(value),
-                        "information_type": field,
-                    }
+                value = str(value).strip()
 
-        # Check nested metadata
-        metadata = message.get("metadata")
+                validator = validators.get(field)
 
-        if isinstance(metadata, dict):
+                if validator and not validator.fullmatch(value):
+                    continue
 
-            for field in fields:
+                logger.info(
+                    "Previous reference found | type=%s | value=%s",
+                    field,
+                    value,
+                )
 
-                value = metadata.get(field)
+                return {
+                    "success": True,
+                    "data": value,
+                    "information_type": field,
+                }
 
-                if value:
-                    logger.info(
-                        "Previous metadata found | "
-                        "type=%s | value=%s",
-                        field,
-                        value,
-                    )
+    # ============================================================
+    # 2. SEARCH MESSAGE TEXT
+    # ============================================================
 
-                    return {
-                        "success": True,
-                        "data": str(value),
-                        "information_type": field,
-                    }
-
-    # --------------------------------------------------------
-    # 2. Search message text
+    # IMPORTANT:
+    # Do NOT use:
     #
-    # Useful when MongoDB stores messages like:
+    #     PAY[-_]?[A-Za-z0-9]{3,}
     #
-    # {
-    #   "role": "assistant",
-    #   "content": "Your order ID is ORD12345"
-    # }
-    # --------------------------------------------------------
+    # because "Payment" matches:
+    #
+    #     PAY + ment
+    #
+    # Instead, explicitly require a delimiter/prefix format OR
+    # a standalone 24-character MongoDB ObjectId.
 
-    patterns = {
+    text_patterns = {
+
         "order_id": [
-            r"\border\s*(?:id|number|no\.?)?\s*[:#-]?\s*"
-            r"(ORD[-_]?[A-Za-z0-9]+)\b",
-
-            r"\b(ORD[-_]?[A-Za-z0-9]{3,})\b",
+            re.compile(
+                r"\bORD[-_]?[A-Za-z0-9]{3,}\b",
+                re.IGNORECASE,
+            ),
+            re.compile(
+                r"\b[0-9a-fA-F]{24}\b",
+            ),
         ],
 
         "payment_id": [
-            r"\bpayment\s*(?:id|number|no\.?)?\s*[:#-]?\s*"
-            r"(PAY[-_]?[A-Za-z0-9]+)\b",
-
-            r"\b(PAY[-_]?[A-Za-z0-9]{3,})\b",
+            re.compile(
+                r"\bPAY[-_]?[0-9A-Za-z]{3,}\b",
+                re.IGNORECASE,
+            ),
         ],
 
         "ticket_id": [
-            r"\bticket\s*(?:id|number|no\.?)?\s*[:#-]?\s*"
-            r"(TKT[-_]?[A-Za-z0-9]+)\b",
-
-            r"\b(TKT[-_]?[A-Za-z0-9]{3,})\b",
-
-            r"\b(ESC[-_]?[A-Za-z0-9]+)\b",
+            re.compile(
+                r"\b(?:TKT|ESC)[-_]?[A-Za-z0-9]{3,}\b",
+                re.IGNORECASE,
+            ),
         ],
 
         "product_id": [
-            r"\bproduct\s*(?:id|number|no\.?)?\s*[:#-]?\s*"
-            r"(PROD[-_]?[A-Za-z0-9]+)\b",
-
-            r"\b(PROD[-_]?[A-Za-z0-9]{3,})\b",
+            re.compile(
+                r"\bPROD[-_]?[A-Za-z0-9]{3,}\b",
+                re.IGNORECASE,
+            ),
         ],
 
         "file_id": [
-            r"\bfile\s*(?:id|number|no\.?)?\s*[:#-]?\s*"
-            r"(FILE[-_]?[A-Za-z0-9]+)\b",
-
-            r"\b(FILE[-_]?[A-Za-z0-9]{3,})\b",
+            re.compile(
+                r"\bFILE[-_]?[A-Za-z0-9]{3,}\b",
+                re.IGNORECASE,
+            ),
         ],
     }
 
-    # Newest messages first
+    # ------------------------------------------------------------
+    # Search newest messages first
+    # ------------------------------------------------------------
+
     for message in reversed(messages):
 
         if not isinstance(message, dict):
             continue
 
-        content = message.get("content")
-
-        # Some MongoDB schemas may use text/message
-        if not content:
-            content = message.get("message")
-
-        if not content:
-            content = message.get("text")
+        content = (
+            message.get("content")
+            or message.get("message")
+            or message.get("text")
+        )
 
         if not isinstance(content, str):
             continue
 
-        for information_type, regex_list in patterns.items():
+        content = content.strip()
+
+        # --------------------------------------------------------
+        # Explicit labels should have highest priority
+        # --------------------------------------------------------
+
+        explicit_patterns = {
+
+            "order_id": re.compile(
+                r"(?:Order\s*ID|order_id)\s*[:=#-]?\s*"
+                r"([0-9a-fA-F]{24}|ORD[-_]?[A-Za-z0-9]{3,})",
+                re.IGNORECASE,
+            ),
+
+            "payment_id": re.compile(
+                r"(?:Payment\s*ID|payment_id)\s*[:=#-]?\s*"
+                r"(PAY[-_]?[A-Za-z0-9]{3,})",
+                re.IGNORECASE,
+            ),
+
+            "product_id": re.compile(
+                r"(?:Product\s*ID|product_id)\s*[:=#-]?\s*"
+                r"(PROD[-_]?[A-Za-z0-9]{3,})",
+                re.IGNORECASE,
+            ),
+
+            "ticket_id": re.compile(
+                r"(?:Ticket\s*ID|Complaint\s*ID|ticket_id)\s*[:=#-]?\s*"
+                r"((?:TKT|ESC)[-_]?[A-Za-z0-9]{3,})",
+                re.IGNORECASE,
+            ),
+
+            "file_id": re.compile(
+                r"(?:File\s*ID|file_id)\s*[:=#-]?\s*"
+                r"(FILE[-_]?[A-Za-z0-9]{3,})",
+                re.IGNORECASE,
+            ),
+        }
+
+        for information_type, pattern in explicit_patterns.items():
+
+            match = pattern.search(content)
+
+            if not match:
+                continue
+
+            value = match.group(1).strip()
+
+            logger.info(
+                "Previous information extracted from explicit field | "
+                "type=%s | value=%s",
+                information_type,
+                value,
+            )
+
+            return {
+                "success": True,
+                "data": value,
+                "information_type": information_type,
+            }
+
+        # --------------------------------------------------------
+        # Generic identifier search
+        # --------------------------------------------------------
+
+        for information_type, regex_list in text_patterns.items():
 
             for pattern in regex_list:
 
-                match = re.search(
-                    pattern,
-                    content,
-                    flags=re.IGNORECASE,
-                )
+                match = pattern.search(content)
 
-                if match:
+                if not match:
+                    continue
 
-                    value = match.group(1)
+                value = match.group(0).strip()
 
-                    logger.info(
-                        "Previous information extracted "
-                        "from message | type=%s | value=%s",
-                        information_type,
+                # ------------------------------------------------
+                # Extra validation
+                # ------------------------------------------------
+
+                if information_type == "payment_id":
+
+                    # Prevent words such as:
+                    # Payment
+                    # Payments
+                    # PaymentStatus
+                    #
+                    # Only PAY-prefixed IDs are accepted.
+
+                    if not re.fullmatch(
+                        r"PAY[-_]?[A-Za-z0-9]{3,}",
                         value,
+                        re.IGNORECASE,
+                    ):
+                        continue
+
+                    # "Payment" can still theoretically match the
+                    # old regex, so explicitly reject it.
+                    if value.lower() in {
+                        "payment",
+                        "payments",
+                        "paymentid",
+                        "payment_id",
+                    }:
+                        continue
+
+                if information_type == "order_id":
+
+                    valid = re.fullmatch(
+                        r"(?:ORD[-_]?[A-Za-z0-9]{3,}|[0-9a-fA-F]{24})",
+                        value,
+                        re.IGNORECASE,
                     )
 
-                    return {
-                        "success": True,
-                        "data": value,
-                        "information_type": information_type,
-                    }
+                    if not valid:
+                        continue
+
+                if information_type == "product_id":
+
+                    valid = re.fullmatch(
+                        r"PROD[-_]?[A-Za-z0-9]{3,}",
+                        value,
+                        re.IGNORECASE,
+                    )
+
+                    if not valid:
+                        continue
+
+                if information_type == "ticket_id":
+
+                    valid = re.fullmatch(
+                        r"(?:TKT|ESC)[-_]?[A-Za-z0-9]{3,}",
+                        value,
+                        re.IGNORECASE,
+                    )
+
+                    if not valid:
+                        continue
+
+                if information_type == "file_id":
+
+                    valid = re.fullmatch(
+                        r"FILE[-_]?[A-Za-z0-9]{3,}",
+                        value,
+                        re.IGNORECASE,
+                    )
+
+                    if not valid:
+                        continue
+
+                logger.info(
+                    "Previous information extracted from message | "
+                    "type=%s | value=%s",
+                    information_type,
+                    value,
+                )
+
+                return {
+                    "success": True,
+                    "data": value,
+                    "information_type": information_type,
+                }
+
+    # ============================================================
+    # NOTHING FOUND
+    # ============================================================
 
     logger.warning(
         "No previous information found in conversation"
@@ -489,14 +650,12 @@ async def execute_operation(
     else:
 
         result = {
-            "success": False,
+            "success": True,
             "operation": "unknown",
             "answer": (
-                "I could not determine the appropriate "
-                "operation for this request."
+                "Can you write your questions clearly so I can understand what answer to search for—for example, “What is my payment status?” or “What is my order status?” Also, mention the related topic, such as “How can I get a refund?” → `refund_policy.pdf`."  
             ),
-            "error": "Unknown intent",
-            "requires_human": True,
+            "requires_human": False,
             "evidence": [],
         }
 
