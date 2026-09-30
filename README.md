@@ -338,6 +338,7 @@ Operation Router
 ┌───────┴─────────────────────────┐
 │ │
 ▼ ▼
+<<<<<<< HEAD
 Knowledge / RAG Business Tools /Payment Tools / Order Tool / Complain Tool 
 │ │
 ▼ ▼
@@ -345,6 +346,15 @@ MongoDB Vector + BM25 Node.js/ Backend APIs
 │ │
 ▼ ▼
 Cross-Encoder Reranking Operation Results / Results
+=======
+Knowledge / RAG Business Tools
+│ │
+▼ ▼
+MongoDB Vector + BM25 Node.js Backend APIs
+│ │
+▼ ▼
+Cross-Encoder Reranking Operation Results
+>>>>>>> 066aff5 ( add demo)
 │ │
 └───────────────┬─────────────────┘
 ▼
@@ -376,6 +386,7 @@ FastAPI Application
 │ ├── Chat
 │ └── Documents
 │
+<<<<<<< HEAD
 ├── Clients
 │ └── Node Cleint
 │
@@ -423,6 +434,41 @@ FastAPI Application
 ├── .env
 ├── Evaluted
 
+=======
+├── Query Processing
+│ ├── Query Decomposer
+│ ├── Intent Classifier
+│ ├── Entity / Reference Extractor
+│ └── Operation Router
+│
+├── Agents
+│ ├── Query Processing Agent
+│ └── Grounded Response Agent
+│
+├── Operations / Tools
+│ ├── Knowledge Search
+│ ├── Order Status
+│ ├── Payment Status
+│ ├── Product Search
+│ ├── Create Complaint
+│ ├── Get User Complaints
+│ └── Human Escalation
+│
+├── Retrieval
+│ ├── MongoDB Vector Search
+│ ├── BM25
+│ └── Cross-Encoder Reranking
+│
+├── Memory
+│ ├── Get Conversation
+│ └── Save Conversation
+│
+└── External Services
+├── MongoDB
+├── Node.js Backend
+├── Groq
+└── Embedding / Reranking Models
+>>>>>>> 066aff5 ( add demo)
 ```
 
 ## 6.4 🗃️ MongoDB Data Architecture
@@ -2214,4 +2260,8 @@ https://github.com/Sachin6389
 
 LinkedIn:
 
+<<<<<<< HEAD
 https://www.linkedin.com/in/sachin-buildnex/
+=======
+https://www.linkedin.com/in/sachin-buildnex/
+>>>>>>> 066aff5 ( add demo)
