@@ -431,40 +431,8 @@ FastAPI Application
 │
 └── Data
 ├── .env
-├── Evaluted
-├── Query Processing
-│ ├── Query Decomposer
-│ ├── Intent Classifier
-│ ├── Entity / Reference Extractor
-│ └── Operation Router
-│
-├── Agents
-│ ├── Query Processing Agent
-│ └── Grounded Response Agent
-│
-├── Operations / Tools
-│ ├── Knowledge Search
-│ ├── Order Status
-│ ├── Payment Status
-│ ├── Product Search
-│ ├── Create Complaint
-│ ├── Get User Complaints
-│ └── Human Escalation
-│
-├── Retrieval
-│ ├── MongoDB Vector Search
-│ ├── BM25
-│ └── Cross-Encoder Reranking
-│
-├── Memory
-│ ├── Get Conversation
-│ └── Save Conversation
-│
-└── External Services
-├── MongoDB
-├── Node.js Backend
-├── Groq
-└── Embedding / Reranking Models
+
+
 
 ```
 
