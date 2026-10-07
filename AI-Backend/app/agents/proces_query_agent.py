@@ -19,7 +19,7 @@ async def process_complex_query(
     # ========================================================
 
     query_plan = await decompose_query(
-        query=query,
+        query=query ,
         conversation=conversation
     )
 

@@ -600,6 +600,7 @@ Examples:
 "Is this color currently available?"
 "Is this mug in stock?"
 "Can I order this product right now?"
+"Check this product product id is 6ab81b62c43b68544f5cad52 ?"
 
 IMPORTANT:
 
@@ -979,10 +980,19 @@ Examples:
 "Retrieve the previously provided order ID ORD123."
 => RETRIEVE_PREVIOUS_INFO
 
+"Retrieve the order ID associated with the customer."
+=> RETRIEVE_PREVIOUS_INFO
+
 "Retrieve the previously provided product ID PROD456."
 => RETRIEVE_PREVIOUS_INFO
 
+"Retrieve the product ID associated with the customer."
+=> RETRIEVE_PREVIOUS_INFO
+
 "Retrieve the previously provided payment ID PAY789."
+=> RETRIEVE_PREVIOUS_INFO
+
+"Retrieve the payment ID associated with the customer."
 => RETRIEVE_PREVIOUS_INFO
 
 "Retrieve the previously provided ticket ID TKT123."

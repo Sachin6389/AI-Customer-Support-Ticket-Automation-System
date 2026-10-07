@@ -32,6 +32,7 @@ def extract_previous_info(
     # ============================================================
 
     messages = []
+    
 
     if isinstance(conversation, list):
         messages = conversation
@@ -54,6 +55,7 @@ def extract_previous_info(
         "Searching previous information | messages=%s",
         len(messages),
     )
+    
 
     # ============================================================
     # VALID ID VALIDATORS

@@ -11,7 +11,7 @@ import EditProfile from '../src/pages/EditProfile.jsx'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider,createBrowserRouter } from 'react-router-dom'
 import Home from '../src/pages/Home.jsx'
-import { Login } from "../src/Components/index.js"
+import  Login  from "../src/Components/Login.jsx"
 import AuthLayout from "../src/Components/Protector/AuthLayout.jsx"
 import About from '../src/pages/About.jsx'
 import Signup from '../src/Components/Signup.jsx'
@@ -55,7 +55,7 @@ const router=createBrowserRouter([
       {
         path:"/login",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication>
             <Login/>
             </AuthLayout>
         ),
@@ -64,7 +64,7 @@ const router=createBrowserRouter([
       {
         path:"/signup",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication>
             <Signup/>
           </AuthLayout>
         ),
@@ -72,7 +72,7 @@ const router=createBrowserRouter([
       {
         path:"/admin/login",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication>
             <AdminLogin/>
           </AuthLayout>
           
@@ -83,7 +83,7 @@ const router=createBrowserRouter([
       {
         path:"/Dashboard",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication>
             <AdminDeshboard/>
           </AuthLayout>
           
@@ -94,7 +94,7 @@ const router=createBrowserRouter([
       {
         path:"/orderlist",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication>
             <GetOrderList/>
           </AuthLayout>
           
@@ -105,7 +105,7 @@ const router=createBrowserRouter([
       {
         path:"/Document-upload",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication>
             <Document/>
           </AuthLayout>
           
@@ -116,7 +116,7 @@ const router=createBrowserRouter([
       {
         path:"/update",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication>
             <AdminUpdateProduct/>
           </AuthLayout>
           
@@ -127,7 +127,7 @@ const router=createBrowserRouter([
       {
         path:"/complain",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication>
             <Complain/>
           </AuthLayout>
           
@@ -138,7 +138,7 @@ const router=createBrowserRouter([
       {
         path:"/add",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication>
             <AddProduct/>
           </AuthLayout>
           
@@ -149,7 +149,7 @@ const router=createBrowserRouter([
       {
         path:"/products",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication>
             <ListOfProduct/>
           </AuthLayout>
           

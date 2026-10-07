@@ -3,7 +3,6 @@ uvicorn[standard]
 langchain
 langchain-community
 langchain-groq
-chromadb
 sentence-transformers
 rank-bm25
 pypdf
@@ -15,7 +14,5 @@ sentence-transformers
 pytest 
 httpx
 langchain-huggingface
-numpy
 langchain-text-splitters
-langchain_chroma
 pytest-asyncio

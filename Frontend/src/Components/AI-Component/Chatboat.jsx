@@ -52,12 +52,7 @@ function Chatboat() {
 
     
   }, [userId]);
-
-  // ============================================================
-  // MESSAGES
-  // ============================================================
-  console.log(userId)
-  console.log(sessionId)
+  
 
   const [messages, setMessages] = useState([
     {
@@ -72,17 +67,7 @@ function Chatboat() {
 
   const [loading, setLoading] = useState(false);
 
-  // ============================================================
-  // SCROLL
-  // ============================================================
-
-  const bottomRef = useRef(null);
-
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
-  }, [messages]);
+  
 
   // ============================================================
   // SEND MESSAGE
@@ -326,8 +311,7 @@ function Chatboat() {
           />
         )}
 
-        {/* Scroll target */}
-        <div ref={bottomRef} />
+
       </div>
 
       {/* ======================================================

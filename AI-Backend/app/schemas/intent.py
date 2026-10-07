@@ -10,16 +10,16 @@ class IntentResult(BaseModel):
         "ORDER_CANCEL",
         "PAYMENT_STATUS",
         "PAYMENT_FAILED",
-        "PAYMENT_POLICY"
+        "PAYMENT_POLICY",
         "REFUND_POLICY",
         "REFUND_REQUEST",
-        "CANCELLATION_REQUEST"
+        "CANCELLATION_REQUEST",
         "CANCELLATION_POLICY",
         "SHIPPING_POLICY",
         "SHIPPING_DELAY",
         "PRODUCT_INFO",
         "PRODUCT_ISSUE",
-        "PRODUCT_AVAILABILITY"
+        "PRODUCT_AVAILABILITY",
         "ACCOUNT_ISSUE",
         "GENERAL_FAQ",
         "CUSTOMER_SUPPORT",

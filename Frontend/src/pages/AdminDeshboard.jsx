@@ -99,7 +99,7 @@ function AdminDeshboard() {
         {/* Orders */}
 
         <div className="dashboard-stat-card">
-          <Link to="/order">
+          <Link to="/orderlist">
 
           <div className="dashboard-stat-top">
 

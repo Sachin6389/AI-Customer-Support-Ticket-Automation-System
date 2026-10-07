@@ -537,7 +537,7 @@ function Header() {
               )}
 
               {/* MOBILE NAVIGATION */}
-              <div className="flex flex-col gap-2 mt-5">
+              <div className="flex flex-col gap-2 mt-0 bg-cream p-3 rounded-xl border border-border">
 
                 {navItems.map(
                   (item) =>
