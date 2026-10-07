@@ -9,6 +9,28 @@ The system is designed to answer customer questions using verified knowledge-bas
 
 ---
 
+# 2. Problem Statement
+  Customer-support teams receive a large number of repetitive requests related to:
+  • Orders
+  • Payments
+  • Refunds
+  • Cancellations
+  • Delivery
+  • Product information
+  • Account issues
+  • Company policies
+
+  The proposed system should automatically handle common queries while using tools for action-
+  based requests and escalating issues that require human intervention.
+  ---
+# 3. PROJECT OBJECTIVE
+Build an AI-powered customer-support system that can understand customer queries, retrieve
+information from a company knowledge base, use AI agents and tools to perform actions,
+maintain conversation context, create support tickets, and escalate complex issues to human
+support.
+---
+
+
 # 4. ✨ Features
 
 ## 🧠 AI Features
