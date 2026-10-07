@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import connectedDB from './Db/index.js';
 import app from './app.js';
 import dns from "dns";
+import { connectRedis } from './config/redis.js';
 
 dns.setServers([
     "8.8.8.8",
@@ -11,6 +12,7 @@ dns.setServers([
 dotenv.config({
     path:"./.env"
 })
+connectRedis()
 connectedDB()
 .then(()=>{
     app.listen(process.env.PORT || 5000,()=>{
