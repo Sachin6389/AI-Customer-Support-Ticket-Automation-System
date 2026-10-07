@@ -24,7 +24,10 @@ The system is designed to answer customer questions using verified knowledge-bas
     based requests and escalating issues that require human intervention.
   ---
 # 3. PROJECT OBJECTIVE
-    Build an AI-powered customer-support system that can understand customer queries, retrieve  information from a company knowledge        base, use AI agents and tools to perform actions, maintain conversation context, create support tickets, and escalate complex           issues to human support.
+    Build an AI-powered customer-support system that can understand customer queries,
+    retrieve  information from a company knowledge base, use AI agents and tools to 
+    perform actions, maintain conversation context, create support tickets, and 
+    escalate complex  issues to human support.
   ---
 
 
